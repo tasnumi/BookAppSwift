@@ -16,6 +16,6 @@ class MainAppViewModel: ObservableObject {
     @Published var users: [User] = []
     @Published var currentUser: User?
     @Published var isLoggedIn: Bool = false
-    
+    @Published var signedUp: Bool = false
     
 }

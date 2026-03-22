@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct SwiftBookAppApp: App {
+    @StateObject var mainVM = MainAppViewModel()
     var body: some Scene {
         WindowGroup {
             ContentView()
-            
+                .environmentObject(mainVM)
         }
     }
 }

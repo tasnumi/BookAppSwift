@@ -6,4 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
+
 //display the home page (search functionality)
+struct HomeView: View {
+    var body: some View {
+        Text("Home Page")
+    }
+}

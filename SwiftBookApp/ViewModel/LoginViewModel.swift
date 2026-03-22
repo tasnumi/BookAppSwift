@@ -10,37 +10,22 @@ import Combine
 import SwiftUI
 
 class LoginViewModel: ObservableObject {
-    @ObservedObject var mainVM: MainAppViewModel
-    @Published var username: String = "" //store the users inputted username
-    @Published var password: String = "" //store the users inputted password
     @Published var email: String = "" //store the users inputted email
+    @Published var password: String = "" //store the users inputted password
     @Published var hasError: String = ""
     //every time these values change, the place that observes this class will have the updated values
     
-    init(mainVM: MainAppViewModel) {
-        self.mainVM = mainVM
-    }
-    
-    func login(username: String, password: String, email: String) {
+    func login(mainVM: MainAppViewModel) {
         //apple documentation to find the first user which equals to the inputted username, password, and email
-        if let userInfo = mainVM.users.first(where: { $0.username == username && $0.password == password && $0.email == email }) { //https://developer.apple.com/documentation/swift/array/first(where:)
-            mainVM.currentUser = userInfo
-            mainVM.isLoggedIn = true
+        if let userInfo = mainVM.users.first(where: { $0.password == password && $0.email == email
             
-        }
-        else { //login
-            signup(username: username, password: password, email: email)
-        }
-    }
-    
-    func signup(username: String, password: String, email: String) {
-        if mainVM.users.contains(where: { $0.username == username || $0.email == email }) {
-            Text("User already exists")
+        }) {
+            //https://developer.apple.com/documentation/swift/array/first(where:)
+                mainVM.currentUser = userInfo
+                mainVM.isLoggedIn = true
         }
         else {
-            let newUser = User(username: username, email: email, password: password)
-            mainVM.users.append(newUser)
+            hasError = "Account doesn't exist."
         }
-        
     }
 }
