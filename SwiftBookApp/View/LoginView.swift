@@ -30,8 +30,9 @@ struct LoginView: View {
                     .padding()
             }
         }
-        if loginVM.hasError != "" {
+        if !loginVM.hasError.isEmpty {
             Text(loginVM.hasError)
+                .foregroundColor(.red)
         }
         Button("Login") {
             loginVM.login(mainVM: mainVM)

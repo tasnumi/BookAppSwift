@@ -8,6 +8,9 @@
 import Foundation
 import Combine
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
+import Firebase
 
 class LoginViewModel: ObservableObject {
     @Published var email: String = "" //store the users inputted email
@@ -15,17 +18,22 @@ class LoginViewModel: ObservableObject {
     @Published var hasError: String = ""
     //every time these values change, the place that observes this class will have the updated values
     
+    
     func login(mainVM: MainAppViewModel) {
-        //apple documentation to find the first user which equals to the inputted username, password, and email
-        if let userInfo = mainVM.users.first(where: { $0.password == password && $0.email == email
-            
-        }) {
-            //https://developer.apple.com/documentation/swift/array/first(where:)
-                mainVM.currentUser = userInfo
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            DispatchQueue.main.async {
+                if let error = error as NSError? {
+                    print(error.code)
+                    if(error.code == 17004) {
+                        print(error.code)
+                        self?.hasError = "Invalid credentials."
+                        return
+                    }
+                    return
+                }
                 mainVM.isLoggedIn = true
-        }
-        else {
-            hasError = "Account doesn't exist."
+                self?.hasError = ""
+            }
         }
     }
 }

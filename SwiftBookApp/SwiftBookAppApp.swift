@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct SwiftBookAppApp: App {
+    init() {
+        FirebaseApp.configure()
+    }
     @StateObject var mainVM = MainAppViewModel()
     var body: some Scene {
         WindowGroup {

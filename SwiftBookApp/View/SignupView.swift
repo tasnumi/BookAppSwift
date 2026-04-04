@@ -39,13 +39,19 @@ struct SignupView: View {
                     .textFieldStyle(.roundedBorder)
                     .padding()
             }
-            if signupVM.errors != "" {
-                Text(signupVM.errors)
+            if !signupVM.hasError.isEmpty {
+                Text(signupVM.hasError)
+                    .foregroundColor(.red)
             }
             
         }
         Button("Signup") {
-            signupVM.Signup(mainVM: mainVM)
+            signupVM.signUp(email: signupVM.email, password: signupVM.password, username: signupVM.username, mainVM: mainVM)
+        }
+        
+        Button("Already have an account? Login") {
+            mainVM.signedUp = true
+            mainVM.isLoggedIn = false
         }
     }
 }
