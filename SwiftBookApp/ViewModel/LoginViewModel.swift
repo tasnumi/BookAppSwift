@@ -29,6 +29,10 @@ class LoginViewModel: ObservableObject {
                         self?.hasError = "Invalid credentials."
                         return
                     }
+                    if(error.code == 17008) {
+                        self?.hasError = "Invalid email."
+                        return
+                    }
                     return
                 }
                 mainVM.isLoggedIn = true
