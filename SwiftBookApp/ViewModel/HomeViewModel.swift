@@ -9,21 +9,29 @@ import Foundation
 import SwiftUI
 import Combine
 
+//use this resource: https://www.youtube.com/watch?v=6DWCZpL7fBE&t=267s
+enum Secrets {
+    static var GoogleBooksAPIKey: String {
+        guard let key = Bundle.main.infoDictionary?["GOOGLE_BOOKS_API_KEY"] as? String else {
+            fatalError("Google Books API key not found. Check Secrets.xcconfig")
+        }
+        return key
+    }
+}
 class HomeViewModel: ObservableObject {
     @Published var bookTitle: String = ""
     @Published var books: [Book] = []
     @Published var bookImage: Image? = nil
+    @Published var descriptionBook: String = ""
     
     func searchBook(searchItem: String) {
         print("searching for: \(searchItem)")
         let data = searchItem
-        
-        let urlAsString = "https://openlibrary.org/search.json?q=\(data)&limit=10" //query parameter is the inputted search string
-        //additional parameter limit used to only show the 10 results
-        
+        let key = Secrets.GoogleBooksAPIKey
+        let urlAsString = "https://www.googleapis.com/books/v1/volumes?q=\(data)&maxResults=10&key=\(key)"
         let url = URL(string: urlAsString)!
         let urlSession = URLSession.shared
-        
+
         let jsonQuery = urlSession.dataTask(with: url, completionHandler: { data, response, error -> Void in
             print("API called")
             if (error != nil) {
@@ -33,16 +41,15 @@ class HomeViewModel: ObservableObject {
             var err: NSError?
             
             do {
-                guard let data = data else {
-                    print("No data returned from API")
-                    return
-                }
+                guard let data = data,
+                      let contentType = response as? HTTPURLResponse else { return }
+                print("Status code:", contentType.statusCode)
+                
                 let decoder = JSONDecoder()
-                let jsonResult = try! decoder.decode(BookResult.self, from: data)
+                let jsonResult = try decoder.decode(GoogleBooksResponse.self, from: data)
                 print(jsonResult)
                 DispatchQueue.main.async {
-                    self.books = jsonResult.docs
-                    print("book count:", jsonResult.docs.count)
+                    self.books = jsonResult.items ?? []
                 }
             }
             catch {
