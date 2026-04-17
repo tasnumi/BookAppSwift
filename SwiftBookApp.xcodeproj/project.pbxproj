@@ -16,7 +16,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		067ABC682F8F87FD00D6928E /* Exceptions for "SwiftBookApp" folder in "SwiftBookApp" target */ = {
+		067ABC6F2F8F8DCE00D6928E /* Exceptions for "SwiftBookApp" folder in "SwiftBookApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -29,7 +29,7 @@
 		062DDCBB2F6E277C005ED997 /* SwiftBookApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				067ABC682F8F87FD00D6928E /* Exceptions for "SwiftBookApp" folder in "SwiftBookApp" target */,
+				067ABC6F2F8F8DCE00D6928E /* Exceptions for "SwiftBookApp" folder in "SwiftBookApp" target */,
 			);
 			path = SwiftBookApp;
 			sourceTree = "<group>";

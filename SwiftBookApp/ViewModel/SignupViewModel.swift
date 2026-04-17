@@ -22,6 +22,11 @@ class SignupViewModel: ObservableObject {
     
     func signUp(email: String, password: String, username: String, mainVM: MainAppViewModel) {
         //https://medium.com/@halluxdev/firebase-authentication-for-swift-part-2-cca8d49ee656
+        if(username.isEmpty || password.isEmpty || email.isEmpty) {
+            self.hasError = "Please fill out all fields."
+            mainVM.signedUp = false
+            return
+        }
         auth.createUser(withEmail: email, password: password) { authResult, error in
             DispatchQueue.main.async {
                 if let error = error as NSError? {
@@ -31,6 +36,10 @@ class SignupViewModel: ObservableObject {
                     }
                     if(error.code == 17007) {
                         self.hasError = "The email address is already in use by another account."
+                        return
+                    }
+                    if(error.code == 17008) {
+                        self.hasError = "The email address is badly formatted."
                         return
                     }
                     print("Error code is:\(error.code)")

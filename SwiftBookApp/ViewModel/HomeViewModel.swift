@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 import Combine
+import FirebaseAuth
+import FirebaseFirestore
 
 //use this resource: https://www.youtube.com/watch?v=6DWCZpL7fBE&t=267s
 enum Secrets {
@@ -23,6 +25,7 @@ class HomeViewModel: ObservableObject {
     @Published var books: [Book] = []
     @Published var bookImage: Image? = nil
     @Published var descriptionBook: String = ""
+    @Published var username: String = ""
     
     func searchBook(searchItem: String) {
         print("searching for: \(searchItem)")
@@ -59,4 +62,21 @@ class HomeViewModel: ObservableObject {
         })
         jsonQuery.resume()
     }
+    
+    func getUsername() {
+        let db = Firestore.firestore()
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        let docRef = db.collection("users").document(uid)
+        docRef.getDocument { document, error in
+            if let document = document, document.exists {
+                self.username = document.data()?["username"] as? String ?? ""
+                print("Username is \(self.username)")
+            }
+            else {
+                print("Document does not exist")
+            }
+        }
+    }//https://stackoverflow.com/questions/71006819/swiftui-get-field-value-from-a-firebase-document
 }
+
+

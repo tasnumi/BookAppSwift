@@ -20,6 +20,12 @@ class LoginViewModel: ObservableObject {
     
     
     func login(mainVM: MainAppViewModel) {
+        if(email.isEmpty || password.isEmpty) {
+            self.hasError = "Please fill out all fields."
+            mainVM.isLoggedIn = false
+            return
+        }
+        
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             DispatchQueue.main.async {
                 if let error = error as NSError? {
@@ -35,6 +41,7 @@ class LoginViewModel: ObservableObject {
                     }
                     return
                 }
+                
                 mainVM.isLoggedIn = true
                 self?.hasError = ""
             }

@@ -19,47 +19,99 @@ struct SignupView: View {
             VStack {
                 Spacer()
                 Text("Welcome")
-                    .padding(40)
+                    .padding(30)
                     .font(Font.largeTitle)
-                    .background(Color("GreenButton"))
+                    .foregroundStyle(Color("GreenButton"))
                     .foregroundColor(.white)
                     .cornerRadius(15)
-                    
+                    .bold()
+
                 Text("Create an account")
                     .font(Font.title)
                     .bold()
                     .padding(.bottom, 20)
+                    .foregroundStyle(Color("GreenButton"))
                 
-                VStack() {
-                    VStack(alignment: .leading, spacing: 15){
+                VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 8){
                         Text("Enter Username")
                         .font(Font.title2)
                         .bold()
-                        TextField("", text: $signupVM.username)
-                            .textFieldStyle(.roundedBorder)
+                        .padding(15)
+                        .foregroundStyle(Color("GreenButton"))
+                        HStack {
+                            Image(systemName: "person.circle")
+                                .foregroundColor(.gray)
+                            TextField("Jane Doe", text: $signupVM.username)
+                                .textFieldStyle(.plain)
+                        }
+                        .padding(10)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                        .overlay (
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
+                        .padding(.horizontal)
+                        .frame(alignment: .leading)
+                        
                     }
                     .padding(.leading, 20)
                         
                     
-                    VStack(alignment: .leading, spacing: 15) {
+                    VStack(alignment: .leading, spacing: 8) {
                         Text("Enter Email")
                             .font(Font.title2)
                             .bold()
-                        TextField("", text: $signupVM.email)
-                            .textFieldStyle(.roundedBorder)
+                            .padding(15)
+                            .foregroundStyle(Color("GreenButton"))
+                        HStack {
+                            Image(systemName: "envelope")
+                                    .foregroundColor(.gray)
+                            TextField("janedoe@ gmail.com", text: $signupVM.email)
+                                .textFieldStyle(.plain)
+                        }
+                        .padding(10)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                        .overlay (
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
+                        .padding(.horizontal)
+                        .frame(alignment: .leading)
+                        
                             
                     }
                     .padding(.leading, 20)
                     
-                    VStack(alignment: .leading, spacing: 15) {
+                    VStack(alignment: .leading, spacing: 8) {
                         Text("Enter Password")
                             .font(Font.title2)
                             .bold()
-                        TextField("", text: $signupVM.password)
-                            .textFieldStyle(.roundedBorder)
+                            .padding(15)
+                            .foregroundStyle(Color("GreenButton"))
+                        HStack {
+                            Image(systemName: "lock")
+                                .foregroundColor(.gray)
+                            TextField("", text: $signupVM.password)
+                                .textFieldStyle(.plain)
+                        }
+                        .padding(10)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                        .overlay (
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
+                        .padding(.horizontal)
+                        .frame(alignment: .leading)
+                        
                             
                     }
                     .padding(.leading, 20)
+                    .padding(.bottom, 15)
+                    
                     if !signupVM.hasError.isEmpty {
                         Text(signupVM.hasError)
                             .foregroundColor(.red)
@@ -70,7 +122,9 @@ struct SignupView: View {
                     signupVM.signUp(email: signupVM.email, password: signupVM.password, username: signupVM.username, mainVM: mainVM)
                 }
                 .font(Font.title3)
-                .padding(10)
+                .padding(.horizontal, 25)
+                .padding(.vertical, 15)
+                .bold()
                 .background(Color("GreenButton"))
                 .foregroundColor(.white)
                 .cornerRadius(10)
@@ -80,6 +134,7 @@ struct SignupView: View {
                     mainVM.signedUp = true
                     mainVM.isLoggedIn = false
                 }
+                .font(Font.title3)
                 Spacer()
             }
         
