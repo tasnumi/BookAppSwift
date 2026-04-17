@@ -1,4 +1,6 @@
 #Secrets
 Secrets.xcconfig
 
-
+#Xcode user state
+*.xcuserstate
+xcuserdata/
