@@ -85,7 +85,15 @@ struct HomeView: View {
                     }
                 }
             .scrollContentBackground(.hidden)
-            }
+                }.toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationStack {
+                            NavigationLink(destination: ProfileView(homeVM: homeVM)){
+                            Image(systemName: "person.crop.circle.fill").foregroundStyle(Color("GreenButton"))
+                            }
+                        }
+                    }
+                }
         }
     }
 }
