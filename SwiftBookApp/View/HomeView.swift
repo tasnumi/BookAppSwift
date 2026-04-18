@@ -93,6 +93,13 @@ struct HomeView: View {
                             }
                         }
                     }
+                    ToolbarItem(placement: .bottomBar) {
+                        NavigationStack {
+                            NavigationLink(destination: MapView(lat: 0.0, lon: 0.0)){
+                            Image(systemName: "map.fill").foregroundStyle(Color("GreenButton"))
+                            }
+                        }
+                    }
                 }
         }
     }
