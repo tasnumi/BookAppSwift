@@ -63,18 +63,25 @@ struct HomeView: View {
                                     HStack {
                                         //use Apple's documentation to asynchronously fetch the images from the book cover id
                                         //https://developer.apple.com/documentation/SwiftUI/AsyncImage
-                                        if let thumbnail = book.volumeInfo.imageLinks?.thumbnail, let URL = URL(string: thumbnail.replacingOccurrences(of: "http://", with: "https://")) { //the API returns books in HTTP but AsyncImage works with HTTPS so we need to convert the HTTP image to HTTPS with replacingOccurrences
-                                            
-                                            AsyncImage(url: URL) { image in
-                                                image.resizable()
+                                        if let thumbnail = book.volumeInfo.imageLinks?.thumbnail { //if the thumbnail field contains some data
+                                            if(book.volumeInfo.imageLinks?.isAsset == true) { //if the asset field is set to true, that means the mock API data was loaded so we need to display the image from the loaded image in the Assets folder
+                                                Image(thumbnail)
+                                                    .resizable()
                                                     .scaledToFit()
-                                            } placeholder: {
-                                                ProgressView()
+                                                    .frame(width: 90, height: 135)
                                             }
-
-                                        }
+                                            else if let url = URL(string: thumbnail.replacingOccurrences(of: "http://", with: "https://")) { //if isAssets is false, that means that the API is currently working so we will asynchronously display the image from the API results
+                                                AsyncImage(url: url) { image in
+                                                    image.resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 90, height: 135)
+                                                } placeholder: {
+                                                    ProgressView()
+                                                }
+                                                }
+                                            }
                                                                             
-                                        VStack {
+                                        VStack(alignment: .leading) {
                                             Text(book.volumeInfo.title ?? "Unknown Title")
                                             Text(book.volumeInfo.authors?.first ?? "Unknown Author")
                                         }
