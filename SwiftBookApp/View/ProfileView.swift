@@ -6,4 +6,115 @@
 //
 
 import Foundation
+import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
+
 //display the user's profile page
+struct ProfileView: View {
+    //@State var book: Book
+    @StateObject var homeVM = HomeViewModel()
+    @StateObject var profileVM = ProfileViewModel()
+
+    @State var username: String = ""
+
+    var body: some View {
+        ZStack {
+            Color("Background")
+                .ignoresSafeArea()
+            VStack(spacing: 30) {
+                Text("\(homeVM.username)")
+                    .font(.largeTitle)
+                    .padding(15)
+                
+                    .bold()
+                    .background(Color("GreenButton"))
+                    .cornerRadius(10)
+                    .foregroundColor(.white)
+                // how to get the user's account creation date from firebase https://stackoverflow.com/questions/38174178/get-created-date-and-last-login-date-from-firuser-with-firebase-3
+                let joinDate = Auth.auth().currentUser?.metadata.creationDate
+                // format date and dont include the time of the creation https://developer.apple.com/documentation/foundation/date/formatstyle
+                Text("Join Date : \(joinDate?.formatted(date: .long, time: .omitted) ?? "N/A")").font(.system(size: 20))
+                VStack {
+                    Text("Favorite Books").font(.system(size: 20))
+                    // horizontal scroll view in swift https://www.hackingwithswift.com/quick-start/swiftui/how-to-add-horizontal-and-vertical-scrolling-using-scrollview
+                    HStack {
+                    ScrollView(.horizontal, showsIndicators: true) {
+                        HStack(spacing: 20) {
+                            if(profileVM.favoriteBooks.count == 0 ){
+                                Text("No Favorite Books Yet").padding(18).frame(height: 160).multilineTextAlignment(.center).font(.system(size: 19))
+                            }
+                            else {
+                                ForEach(profileVM.favoriteBooks) { item in
+                                   let thumbnail = item.volumeInfo.imageLinks?.thumbnail
+                                   
+                                   let URL = URL(string: thumbnail?.replacingOccurrences(of: "http://", with: "https://") ?? "")
+                                    // make the images navigation links
+                                    NavigationStack {
+                                        NavigationLink(destination: BookInfoView(book: item)) {
+                                            AsyncImage(url: URL) { image in
+                                                image.resizable()
+                                                    .scaledToFill()
+                                            } placeholder: {
+                                                ProgressView()
+                                            }
+                                            .frame(width: 120, height: 160)
+                                            .clipped()
+                                            .cornerRadius(13)
+                                            .padding(.bottom, 10)
+                                            .padding(.top, 10)
+                                        }
+                                    }
+                                }.padding(18)
+                            }
+                        }.padding(.horizontal, 10)
+                    }
+                    }.padding(.horizontal, 8).background(Color("GreyAccentColor")).cornerRadius(16).padding(.bottom, 15)
+                    Text("Books Read: \(profileVM.readBooks.count)").font(.system(size: 20))
+                    HStack {
+                    ScrollView(.horizontal, showsIndicators: true) {
+                        HStack(spacing: 20) {
+                            if(profileVM.readBooks.count == 0 ){
+                                Text("No Books Read Yet").padding(18).frame(height: 160).multilineTextAlignment(.center).font(.system(size: 19))
+                            }
+                            else {
+                                ForEach(profileVM.readBooks) { item in
+                                   let thumbnail = item.volumeInfo.imageLinks?.thumbnail
+                                   
+                                   let URL = URL(string: thumbnail?.replacingOccurrences(of: "http://", with: "https://") ?? "")
+                                    NavigationStack {
+                                        NavigationLink(destination: BookInfoView(book: item)) {
+                                            AsyncImage(url: URL) { image in
+                                                image.resizable()
+                                                    .scaledToFill()
+                                            } placeholder: {
+                                                ProgressView()
+                                            }
+                                            .frame(width: 120, height: 160)
+                                            .clipped()
+                                            .cornerRadius(13)
+                                            .padding(.bottom, 10)
+                                            .padding(.top, 10)
+                                        }
+                                    }
+                                    
+                                }.padding(18)
+                            }
+                        }.padding(.horizontal, 10)
+                    }
+                    }.padding(.horizontal, 8).background(Color("GreyAccentColor")).cornerRadius(16).padding(.bottom, 15)
+                }.padding(.horizontal, 20)
+                
+            }
+        }.task {
+            // fetch the data when the content view loads
+            await profileVM.fetchFavBookData()
+            await profileVM.fetchReadBookData()
+        }
+    }
+}
+
+
+//#Preview {
+//    ProfileView(book: Book(volumeInfo: VolumeInfo(title: "hello", authors: ["hello"], description: "Hello", imageLinks: ImageLinks(thumbnail: "hi"))))
+//}

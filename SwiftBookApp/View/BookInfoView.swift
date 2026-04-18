@@ -48,10 +48,14 @@ struct BookInfoView: View {
                     Text("Author: \(book.volumeInfo.authors?.first ?? "Unknown Author")").font(.system(size: 19))
 //                        .font(.subheadline)
 //                        .foregroundColor(.gray)
-                   // Text("Description: \(book.volumeInfo.description ?? "No description available.")")
-                    Text("Description: \(book.volumeInfo.description ?? "No description available.")").font(.system(size: 19)).truncateText(length: 5, isEnabled: isEnabled, animation: .smooth(duration: 0.5, extraBounce: 0)).onTapGesture {
+                    // check if string is empty "" or nil https://stackoverflow.com/questions/29381994/check-string-for-nil-empty
+                    let descriptionCheck = book.volumeInfo.description
+                    Text("Description: \((descriptionCheck ?? "").isEmpty ? "No description available." : descriptionCheck!)").font(.system(size: 19)).truncateText(length: 5, isEnabled: isEnabled, animation: .smooth(duration: 0.5, extraBounce: 0)).onTapGesture {
                         isEnabled.toggle()
                     }.frame(maxWidth: .infinity, alignment: .leading)
+//                    Text("Description: \(book.volumeInfo.description ?? "No description available.")").font(.system(size: 19)).truncateText(length: 5, isEnabled: isEnabled, animation: .smooth(duration: 0.5, extraBounce: 0)).onTapGesture {
+//                        isEnabled.toggle()
+//                    }.frame(maxWidth: .infinity, alignment: .leading)
                 }.padding(.horizontal, 20)
             }
     }.onAppear{
