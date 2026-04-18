@@ -20,7 +20,6 @@ struct LoginView: View {
                     .padding(25)
                     .font(Font.largeTitle)
                     .foregroundStyle(Color("GreenButton"))
-                    .foregroundColor(.white)
                     .cornerRadius(15)
                     .bold()
                 VStack(alignment: .leading, spacing: 8) {
@@ -28,6 +27,7 @@ struct LoginView: View {
                         .font(Font.title2)
                         .bold()
                         .padding(15)
+                        .foregroundStyle(Color("GreenButton"))
                     HStack {
                         Image(systemName: "envelope")
                                 .foregroundColor(.gray)
@@ -52,6 +52,7 @@ struct LoginView: View {
                     .font(Font.title2)
                     .bold()
                     .padding(15)
+                    .foregroundStyle(Color("GreenButton"))
                     HStack {
                         Image(systemName: "lock")
                             .foregroundColor(.gray)
@@ -71,15 +72,16 @@ struct LoginView: View {
                 }
                 .padding(.leading, 20)
                 
-                if !loginVM.hasError.isEmpty {
-                    Text(loginVM.hasError)
-                        .foregroundColor(.red)
-                }
+                VStack {
+                    if !loginVM.hasError.isEmpty {
+                        Text(loginVM.hasError)
+                            .foregroundColor(.red)
+                    }
+                }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                
                 
                 Button("Login") {
-                    if (!loginVM.email.isEmpty || !loginVM.password.isEmpty) {
-                        loginVM.login(mainVM: mainVM)
-                    }
+                    loginVM.login(mainVM: mainVM)
                     print(mainVM.isLoggedIn)
                 }
                 .font(Font.title3)

@@ -43,7 +43,6 @@ class LoginViewModel: ObservableObject {
                 }
                 
                 mainVM.isLoggedIn = true
-                self?.hasError = ""
             }
         }
     }
