@@ -56,7 +56,8 @@ struct BookInfoView: View {
 //                    Text("Description: \(book.volumeInfo.description ?? "No description available.")").font(.system(size: 19)).truncateText(length: 5, isEnabled: isEnabled, animation: .smooth(duration: 0.5, extraBounce: 0)).onTapGesture {
 //                        isEnabled.toggle()
 //                    }.frame(maxWidth: .infinity, alignment: .leading)
-                }.padding(.horizontal, 20)
+                }.padding(.horizontal, 20) .navigationTitle("Book Information")
+                
             }
     }.onAppear{
         bookInfoVM.isInFavorites(currentBook: book, userId:  Auth.auth().currentUser?.uid ?? "")

@@ -17,7 +17,6 @@ struct SignupView: View {
             Color("Background")
                 .ignoresSafeArea()
             VStack {
-                Spacer()
                 Text("Welcome")
                     .padding(30)
                     .font(Font.largeTitle)
@@ -112,10 +111,15 @@ struct SignupView: View {
                     .padding(.leading, 20)
                     .padding(.bottom, 15)
                     
-                    if !signupVM.hasError.isEmpty {
-                        Text(signupVM.hasError)
-                            .foregroundColor(.red)
-                    }
+                    VStack() {
+                        if !signupVM.hasError.isEmpty {
+                            Text(signupVM.hasError)
+                                .foregroundColor(.red)
+                                
+                        }
+                    }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                    
+                    
                     
                 }
                 Button("Signup") {
@@ -135,7 +139,6 @@ struct SignupView: View {
                     mainVM.isLoggedIn = false
                 }
                 .font(Font.title3)
-                Spacer()
             }
         
             

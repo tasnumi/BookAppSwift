@@ -23,14 +23,13 @@ struct HomeView: View {
                 
             VStack {
                 VStack(spacing: 30) {
-                    Text("Hello, \(homeVM.username)")
-                        .font(.largeTitle)
-                        .padding(15)
-                    
-                        .bold()
-                        .background(Color("GreenButton"))
-                        .cornerRadius(10)
+                    Text("Welcome, \(homeVM.username)")
+                        .padding(25)
+                        .font(Font.largeTitle)
+                        .foregroundStyle(Color("GreenButton"))
                         .foregroundColor(.white)
+                        .cornerRadius(15)
+                        .bold()
                     
                     HStack {
                         Image(systemName: "magnifyingglass")
@@ -51,6 +50,13 @@ struct HomeView: View {
                     Button("Start search") {
                         homeVM.searchBook(searchItem: homeVM.bookTitle)
                     }
+                    .font(Font.title3)
+                    .padding(.horizontal, 25)
+                    .padding(.vertical, 15)
+                    .bold()
+                    .background(Color("GreenButton"))
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
                 }
                 .onAppear {
                     homeVM.getUsername()
@@ -59,7 +65,6 @@ struct HomeView: View {
                         ForEach(homeVM.books, id: \.id) { book in
                             
                             NavigationLink(destination: BookInfoView(book: book)) {
-                                
                                     HStack {
                                         //use Apple's documentation to asynchronously fetch the images from the book cover id
                                         //https://developer.apple.com/documentation/SwiftUI/AsyncImage
@@ -68,7 +73,7 @@ struct HomeView: View {
                                                 Image(thumbnail)
                                                     .resizable()
                                                     .scaledToFit()
-                                                    .frame(width: 90, height: 135)
+                                                    .frame(width: 100, height: 135)
                                             }
                                             else if let url = URL(string: thumbnail.replacingOccurrences(of: "http://", with: "https://")) { //if isAssets is false, that means that the API is currently working so we will asynchronously display the image from the API results
                                                 AsyncImage(url: url) { image in
@@ -81,13 +86,17 @@ struct HomeView: View {
                                                 }
                                             }
                                                                             
-                                        VStack(alignment: .leading) {
+                                        VStack(alignment: .leading, spacing: 8) {
                                             Text(book.volumeInfo.title ?? "Unknown Title")
+                                            .foregroundStyle(Color("GreenButton"))
+                                            .bold()
                                             Text(book.volumeInfo.authors?.first ?? "Unknown Author")
+                                                .foregroundColor(.secondary)
                                         }
                                     }
-                                
+                                    
                             }
+                            
                         }
                     }
                 }
