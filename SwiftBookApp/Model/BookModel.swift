@@ -32,4 +32,5 @@ struct VolumeInfo: Decodable { //type VolumeInfo stores all of the book informat
 
 struct ImageLinks: Decodable { //type ImageLink has a thumbnail which gets returned from the API. the API returns this in a HTTP link, we will need to later convert this to HTTPS to use AsyncImage to load this image into the application
     let thumbnail: String? //imageLink contains thumbnail of each book
+    let isAsset: Bool? //this field is for the mock API in case the API is down to display the thumbnails from the Assets folder
 }
