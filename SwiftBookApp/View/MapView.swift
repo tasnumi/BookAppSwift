@@ -47,7 +47,7 @@ struct MapView : View {
     // variable that stores the stores returned from MKLocalSearch
     // will be iterated and displayed in the list
     @State private var storeResults: [Bookstore] = []
-    
+    @State var reqquestLocation: Bool = true
     var body: some View {
         //ScrollView(.vertical, showsIndicators: true) {
         ZStack {
@@ -56,12 +56,15 @@ struct MapView : View {
             ZStack {
                 Color("Background")
                     .ignoresSafeArea()
-            VStack {
-                LocationButton(.shareMyCurrentLocation) {
-                    locationManager.requestUserLocation()
-                }
-                .frame(height: 20)
-                .padding()
+                if(reqquestLocation){
+                    VStack {
+                        LocationButton(.shareMyCurrentLocation) {
+                            locationManager.requestUserLocation()
+                            reqquestLocation = false
+                        }
+                        .frame(height: 20)
+                        .padding()
+                    }
             }
                 
                 if let location = locationManager.userCurrentLocation {
