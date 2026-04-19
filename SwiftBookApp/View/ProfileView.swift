@@ -46,23 +46,34 @@ struct ProfileView: View {
                             }
                             else {
                                 ForEach(profileVM.favoriteBooks) { item in
-                                   let thumbnail = item.volumeInfo.imageLinks?.thumbnail
-                                   
-                                   let URL = URL(string: thumbnail?.replacingOccurrences(of: "http://", with: "https://") ?? "")
                                     // make the images navigation links
                                     NavigationStack {
                                         NavigationLink(destination: BookInfoView(book: item)) {
-                                            AsyncImage(url: URL) { image in
-                                                image.resizable()
-                                                    .scaledToFill()
-                                            } placeholder: {
-                                                ProgressView()
-                                            }
-                                            .frame(width: 120, height: 160)
-                                            .clipped()
-                                            .cornerRadius(13)
-                                            .padding(.bottom, 10)
-                                            .padding(.top, 10)
+                                            if let thumbnail = item.volumeInfo.imageLinks?.thumbnail {
+                                                if(item.volumeInfo.imageLinks?.isAsset == true) { //if the asset field is set to true, that means the mock API data was loaded so we need to display the image from the loaded image in the Assets folder
+                                                    Image(thumbnail)
+                                                        .resizable()
+                                                        .scaledToFill()
+                                                        .frame(width: 120, height: 160)
+                                                        .clipped()
+                                                        .cornerRadius(13)
+                                                        .padding(.bottom, 10)
+                                                        .padding(.top, 10)
+                                                }
+                                                else if let url = URL(string: thumbnail.replacingOccurrences(of: "http://", with: "https://")) { //if isAssets is false, that means that the API is currently working so we will asynchronously display the image from the API results
+                                                    AsyncImage(url: url) { image in
+                                                        image.resizable()
+                                                            .scaledToFill()
+                                                    } placeholder: {
+                                                        ProgressView()
+                                                    }
+                                                    .frame(width: 120, height: 160)
+                                                    .clipped()
+                                                    .cornerRadius(13)
+                                                    .padding(.bottom, 10)
+                                                    .padding(.top, 10)
+                                                    }
+                                                }
                                         }
                                     }
                                 }.padding(18)
@@ -79,22 +90,33 @@ struct ProfileView: View {
                             }
                             else {
                                 ForEach(profileVM.readBooks) { item in
-                                   let thumbnail = item.volumeInfo.imageLinks?.thumbnail
-                                   
-                                   let URL = URL(string: thumbnail?.replacingOccurrences(of: "http://", with: "https://") ?? "")
                                     NavigationStack {
                                         NavigationLink(destination: BookInfoView(book: item)) {
-                                            AsyncImage(url: URL) { image in
-                                                image.resizable()
-                                                    .scaledToFill()
-                                            } placeholder: {
-                                                ProgressView()
-                                            }
-                                            .frame(width: 120, height: 160)
-                                            .clipped()
-                                            .cornerRadius(13)
-                                            .padding(.bottom, 10)
-                                            .padding(.top, 10)
+                                            if let thumbnail = item.volumeInfo.imageLinks?.thumbnail {
+                                                if(item.volumeInfo.imageLinks?.isAsset == true) { //if the asset field is set to true, that means the mock API data was loaded so we need to display the image from the loaded image in the Assets folder
+                                                    Image(thumbnail)
+                                                        .resizable()
+                                                        .scaledToFill()
+                                                        .frame(width: 120, height: 160)
+                                                        .clipped()
+                                                        .cornerRadius(13)
+                                                        .padding(.bottom, 10)
+                                                        .padding(.top, 10)
+                                                }
+                                                else if let url = URL(string: thumbnail.replacingOccurrences(of: "http://", with: "https://")) { //if isAssets is false, that means that the API is currently working so we will asynchronously display the image from the API results
+                                                    AsyncImage(url: url) { image in
+                                                        image.resizable()
+                                                            .scaledToFill()
+                                                    } placeholder: {
+                                                        ProgressView()
+                                                    }
+                                                    .frame(width: 120, height: 160)
+                                                    .clipped()
+                                                    .cornerRadius(13)
+                                                    .padding(.bottom, 10)
+                                                    .padding(.top, 10)
+                                                    }
+                                                }
                                         }
                                     }
                                     
@@ -105,6 +127,21 @@ struct ProfileView: View {
                     }.padding(.horizontal, 8).background(Color("GreyAccentColor")).cornerRadius(16).padding(.bottom, 15)
                 }.padding(.horizontal, 20)
                 
+            }
+        }.toolbar{
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationStack {
+                    NavigationLink(destination: ProfileView(homeVM: homeVM)){
+                    Image(systemName: "person.crop.circle.fill").foregroundStyle(Color("GreenButton"))
+                    }
+                }
+            }
+            ToolbarItem(placement: .bottomBar) {
+                NavigationStack {
+                    NavigationLink(destination: MapView(lat: 0.0, lon: 0.0)){
+                    Image(systemName: "map.fill").foregroundStyle(Color("GreenButton"))
+                    }
+                }
             }
         }.task {
             // fetch the data when the content view loads

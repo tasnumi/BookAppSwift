@@ -25,23 +25,33 @@ struct BookInfoView: View {
     ZStack {
             Color("Background")
                 .ignoresSafeArea()
-
-            let thumbnail = book.volumeInfo.imageLinks?.thumbnail
-           
-            let URL = URL(string: thumbnail?.replacingOccurrences(of: "http://", with: "https://") ?? "")
         
             ScrollView(.vertical, showsIndicators: true) {
-                AsyncImage(url: URL) { image in
-                    image.resizable()
-                        .scaledToFill()
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(width: 230, height: 315)
-                .clipped()
-                .cornerRadius(8)
-                .padding(.bottom, 10)
-                .padding(.top, 30)
+                if let thumbnail = book.volumeInfo.imageLinks?.thumbnail {
+                    if(book.volumeInfo.imageLinks?.isAsset == true) { //if the asset field is set to true, that means the mock API data was loaded so we need to display the image from the loaded image in the Assets folder
+                        Image(thumbnail)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 230, height: 315)
+                            .clipped()
+                            .cornerRadius(8)
+                            .padding(.bottom, 10)
+                            .padding(.top, 30)
+                    }
+                    else if let url = URL(string: thumbnail.replacingOccurrences(of: "http://", with: "https://")) { //if isAssets is false, that means that the API is currently working so we will asynchronously display the image from the API results
+                        AsyncImage(url: url) { image in
+                            image.resizable()
+                                .scaledToFill()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(width: 230, height: 315)
+                        .clipped()
+                        .cornerRadius(8)
+                        .padding(.bottom, 10)
+                        .padding(.top, 30)
+                        }
+                    }
 
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Title: \(book.volumeInfo.title ?? "Unknown Title")").font(.system(size: 19))

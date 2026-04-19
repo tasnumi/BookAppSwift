@@ -17,12 +17,22 @@ class BookDetailViewModel: ObservableObject {
     
     func addToFavorites(book: Book, userId: String) {
         let db = Firestore.firestore()
-        
+        // must check if the imagelink starts with http or https and set isAsset accordingly
+        // using hasprefix to check for http https://www.hackingwithswift.com/read/24/3/working-with-strings-in-swift
+        let imageLink = book.volumeInfo.imageLinks?.thumbnail ?? ""
+        var isAsset: Bool
+        if imageLink.hasPrefix("http"){
+            isAsset = false
+        }
+        else {
+            isAsset = true
+        }
         let data: [String: Any] = [
             "title": book.volumeInfo.title ?? "",
-            "author": book.volumeInfo.authors?.first ?? "",
+            "authors": book.volumeInfo.authors ?? [],
             "cover": book.volumeInfo.imageLinks?.thumbnail ?? "",
-            "description": book.volumeInfo.description ?? ""
+            "description": book.volumeInfo.description ?? "",
+            "isAsset": isAsset
         ]
         
         db.collection("users").document(userId).collection("favorites").document(book.id).setData(data)
@@ -38,12 +48,20 @@ class BookDetailViewModel: ObservableObject {
     // functionality for the user to mark the book as read
     func markAsRead(book: Book, userId: String) {
         let db = Firestore.firestore()
-        
+        let imageLink = book.volumeInfo.imageLinks?.thumbnail ?? ""
+        var isAsset: Bool
+        if imageLink.hasPrefix("http"){
+            isAsset = false
+        }
+        else {
+            isAsset = true
+        }
         let data: [String: Any] = [
             "title": book.volumeInfo.title ?? "",
-            "author": book.volumeInfo.authors?.first ?? "",
+            "authors": book.volumeInfo.authors ?? [],
             "cover": book.volumeInfo.imageLinks?.thumbnail ?? "",
-            "description": book.volumeInfo.description ?? ""
+            "description": book.volumeInfo.description ?? "",
+            "isAsset": isAsset
         ]
         
         // add to a subcollection called readBooks
