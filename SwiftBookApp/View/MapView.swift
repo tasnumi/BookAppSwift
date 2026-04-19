@@ -120,7 +120,7 @@ struct MapView : View {
                                
                             }
                         } .task {
-                            await locationManager.fetchFavBooks()
+                            await locationManager.fetchFavBookStores()
                         }.scrollContentBackground(.hidden)
                         .background(Color("Background"))
 
@@ -180,12 +180,12 @@ struct MapView : View {
                     // keep the store results in the array
                     //https://stackoverflow.com/questions/48676292/using-mklocalsearch-completionhandler-correctly
                     for item in (response.mapItems) {
-                        // how to calcualte distance between user and the store using coordinates
+                        // how to calculate distance between user and the store using coordinates
                         //https://stackoverflow.com/questions/73735692/display-the-distance-between-two-coordinates-in-km-in-swiftui
-                        let storeCooridinates = CLLocation(latitude: item.placemark.coordinate.latitude, longitude: item.placemark.coordinate.longitude)
+                        let storeCoordinates = CLLocation(latitude: item.placemark.coordinate.latitude, longitude: item.placemark.coordinate.longitude)
                         let userCoordinates = CLLocation(latitude: initalCoords.latitude ?? 50, longitude: initalCoords.longitude ?? 30)
                         // divide the meters distance by 1609.344  to get miles
-                        let distance = userCoordinates.distance(from: storeCooridinates) / 1609.344
+                        let distance = userCoordinates.distance(from: storeCoordinates) / 1609.344
                         // how to get address https://stackoverflow.com/questions/15890687/ios6-mapkit-mklocalsearch-how-to-get-address-of-a-mapitem
                         let streetAddr = item.placemark.thoroughfare ?? ""
                         let storeCity = item.placemark.locality ?? ""

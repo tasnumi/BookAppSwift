@@ -51,6 +51,30 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         userCurrentLocation = CLLocationCoordinate2D(latitude: 33.4255, longitude: -111.9400)
     }
     
+    // function to check if the user has already authorized location services, if yes then immediately load and do not ask for permission
+    // source https://developer.apple.com/documentation/corelocation/requesting-authorization-to-use-location-services
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+            
+        // location services are available
+        case .authorizedWhenInUse:
+            requestUserLocation()
+            break
+        // location services are restricted
+        case .restricted, .denied:
+            // set to the default value
+            userCurrentLocation = CLLocationCoordinate2D(latitude: 33.4255, longitude: -111.9400)
+            break
+        // location services have not been enabled yet
+        case .notDetermined:
+           manager.requestWhenInUseAuthorization()
+            break
+            
+        default:
+            break
+        }
+    }
+    
     // function for adding the favorite store to the database
     func addToFavoriteStores(myStore: Bookstore, userId: String, address: String) {
         let db = Firestore.firestore()
@@ -80,7 +104,7 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         }
     }
     
-    func fetchFavBooks() async {
+    func fetchFavBookStores() async {
        let db = Firestore.firestore()
         db.collection("users").document(Auth.auth().currentUser?.uid ?? "").collection("favoriteStores").addSnapshotListener { (querySnapshot, error) in
          guard let documents = querySnapshot?.documents else {
