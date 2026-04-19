@@ -26,7 +26,6 @@ class ProfileViewModel: ObservableObject {
         
         db.collection("users").document(Auth.auth().currentUser?.uid ?? "").collection("favorites").addSnapshotListener { (querySnapshot, error) in
           guard let documents = querySnapshot?.documents else {
-            print("No documents")
             return
           }
             self.favoriteBooks = documents.map { queryDocumentSnapshot -> Book in
@@ -60,7 +59,6 @@ class ProfileViewModel: ObservableObject {
         
         db.collection("users").document(Auth.auth().currentUser?.uid ?? "").collection("readBooks").addSnapshotListener { (querySnapshot, error) in
           guard let documents = querySnapshot?.documents else {
-            print("No documents")
             return
           }
             self.readBooks = documents.map { queryDocumentSnapshot -> Book in

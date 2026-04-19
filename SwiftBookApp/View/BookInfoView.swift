@@ -53,20 +53,17 @@ struct BookInfoView: View {
                         }
                     }
 
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Title: \(book.volumeInfo.title ?? "Unknown Title")").font(.system(size: 19))
-                    Text("Author: \(book.volumeInfo.authors?.first ?? "Unknown Author")").font(.system(size: 19))
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Title: ").bold().foregroundStyle(Color("GreenButton")).font(.system(size: 19)) + Text("\(book.volumeInfo.title ?? "Unknown Title")").font(.system(size: 19))
+                    Text("Author: ").bold().foregroundStyle(Color("GreenButton")).font(.system(size: 19)) + Text("\(book.volumeInfo.authors?.first ?? "Unknown Author")").font(.system(size: 19))
 //                        .font(.subheadline)
 //                        .foregroundColor(.gray)
                     // check if string is empty "" or nil https://stackoverflow.com/questions/29381994/check-string-for-nil-empty
                     let descriptionCheck = book.volumeInfo.description
-                    Text("Description: \((descriptionCheck ?? "").isEmpty ? "No description available." : descriptionCheck!)").font(.system(size: 19)).truncateText(length: 5, isEnabled: isEnabled, animation: .smooth(duration: 0.5, extraBounce: 0)).onTapGesture {
+                    (Text("Description: ").bold().foregroundStyle(Color("GreenButton")).font(.system(size: 19)) + Text("\((descriptionCheck ?? "").isEmpty ? "No description available." : descriptionCheck!)").font(.system(size: 19))).truncateText(length: 5, isEnabled: isEnabled, animation: .smooth(duration: 0.5, extraBounce: 0)).onTapGesture {
                         isEnabled.toggle()
                     }.frame(maxWidth: .infinity, alignment: .leading)
-//                    Text("Description: \(book.volumeInfo.description ?? "No description available.")").font(.system(size: 19)).truncateText(length: 5, isEnabled: isEnabled, animation: .smooth(duration: 0.5, extraBounce: 0)).onTapGesture {
-//                        isEnabled.toggle()
-//                    }.frame(maxWidth: .infinity, alignment: .leading)
-                }.padding(.horizontal, 20) .navigationTitle("Book Information")
+                }.padding(.horizontal, 20)
                 
             }
     }.onAppear{
@@ -79,12 +76,9 @@ struct BookInfoView: View {
               Button {
                   // if the book is already in their favorites, remove it
                   if(bookInfoVM.isInFav) {
-                      print("book removed from favorites")
-                      // remove from favorites
                       bookInfoVM.removeFromFavorites(currentBook: book, userId: Auth.auth().currentUser?.uid ?? "")
                   }
                   else {
-                      print("book saved to favorites")
                       bookInfoVM.addToFavorites(book: book, userId: Auth.auth().currentUser?.uid ?? "")
                   }
               } label: {
@@ -99,12 +93,10 @@ struct BookInfoView: View {
               }
               Button {
                   if(bookInfoVM.isInRead) {
-                      print("book removed from read")
                       // remove from read books
                       bookInfoVM.removeFromRead(currentBook: book, userId: Auth.auth().currentUser?.uid ?? "")
                   }
                   else {
-                      print("book marked as read")
                       bookInfoVM.markAsRead(book: book, userId: Auth.auth().currentUser?.uid ?? "")
                   }
               } label: {
