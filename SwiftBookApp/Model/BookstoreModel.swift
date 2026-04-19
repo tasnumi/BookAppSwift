@@ -15,6 +15,7 @@ import CoreLocationUI
 // this will be what we use to load and display the store results
 struct Bookstore: Identifiable {
     let id: String
+    let storeAddress: String
     let storeDistance: Double
     let storeName: String
     let storePhone: String

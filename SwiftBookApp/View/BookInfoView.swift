@@ -71,12 +71,7 @@ struct BookInfoView: View {
                 }.padding(.horizontal, 20).navigationTitle("Book Information")
                 
             }
-    }
-//    .onAppear{
-//        bookInfoVM.isInFavorites(currentBook: book, userId:  Auth.auth().currentUser?.uid ?? "")
-//        bookInfoVM.isInRead(currentBook: book, userId:  Auth.auth().currentUser?.uid ?? "")
-//    }
-    .task {
+    }.task {
         // fetch the data when the content view loads
         await profileVM.fetchFavBookData()
         await profileVM.fetchReadBookData()
@@ -86,7 +81,6 @@ struct BookInfoView: View {
           ToolbarItemGroup(placement: .bottomBar) {
               Button {
                   // if the book is already in their favorites, remove it
-                  //if(bookInfoVM.isInFav) {
                   if profileVM.favoriteBooks.contains(where: {$0.id == book.id}) {
                       bookInfoVM.removeFromFavorites(currentBook: book, userId: Auth.auth().currentUser?.uid ?? "")
                   }
@@ -96,7 +90,6 @@ struct BookInfoView: View {
               } label: {
                   // modify the image conditionally between filled and unfilled based on
                   // the if book is in favorites
-                  //if(bookInfoVM.isInFav) {
                   if profileVM.favoriteBooks.contains(where: {$0.id == book.id}) {
                       Image(systemName: "heart.fill").foregroundStyle(.red)
                   }
@@ -105,7 +98,6 @@ struct BookInfoView: View {
                   }
               }
               Button {
-                  //if(bookInfoVM.isInRead) {
                   if profileVM.readBooks.contains(where: {$0.id == book.id}) {
                       // remove from read books
                       bookInfoVM.removeFromRead(currentBook: book, userId: Auth.auth().currentUser?.uid ?? "")
