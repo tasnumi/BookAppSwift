@@ -43,6 +43,8 @@ struct SignupView: View {
                                 .foregroundColor(.gray)
                             TextField("Jane Doe", text: $signupVM.username)
                                 .textFieldStyle(.plain)
+                                .autocorrectionDisabled(true)
+                                .textInputAutocapitalization(.never)
                         }
                         .padding(10)
                         .background(Color(.systemGray6))
@@ -69,6 +71,8 @@ struct SignupView: View {
                                     .foregroundColor(.gray)
                             TextField("janedoe@ gmail.com", text: $signupVM.email)
                                 .textFieldStyle(.plain)
+                                .autocorrectionDisabled(true)
+                                .textInputAutocapitalization(.never)
                         }
                         .padding(10)
                         .background(Color(.systemGray6))
@@ -95,6 +99,8 @@ struct SignupView: View {
                                 .foregroundColor(.gray)
                             TextField("", text: $signupVM.password)
                                 .textFieldStyle(.plain)
+                                .autocorrectionDisabled(true)
+                                .textInputAutocapitalization(.never)
                         }
                         .padding(10)
                         .background(Color(.systemGray6))

@@ -33,6 +33,8 @@ struct LoginView: View {
                                 .foregroundColor(.gray)
                         TextField("", text: $loginVM.email)
                             .textFieldStyle(.plain)
+                            .autocorrectionDisabled(true)
+                            .textInputAutocapitalization(.never)
                     }
                     .padding(10)
                     .background(Color(.systemGray6))
@@ -58,6 +60,8 @@ struct LoginView: View {
                             .foregroundColor(.gray)
                         TextField("", text: $loginVM.password)
                             .textFieldStyle(.plain)
+                            .autocorrectionDisabled(true)
+                            .textInputAutocapitalization(.never)
                     }
                     .padding(10)
                     .background(Color(.systemGray6))
