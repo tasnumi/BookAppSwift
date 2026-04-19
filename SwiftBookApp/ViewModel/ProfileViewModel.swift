@@ -49,7 +49,8 @@ class ProfileViewModel: ObservableObject {
                 // imagelinks structure from the source below
                 // https://developers.google.com/books/docs/v1/reference/volumes
                 let cover = data["cover"] as? String ?? ""
-                return Book(volumeInfo: VolumeInfo(title: title, authors: authors, description: description, imageLinks: ImageLinks(thumbnail: cover, isAsset: false)))
+                let isAsset = data["isAsset"] as? Bool ?? false
+                return Book(volumeInfo: VolumeInfo(title: title, authors: authors, description: description, imageLinks: ImageLinks(thumbnail: cover, isAsset: isAsset)))
             }
         }
     }
@@ -75,7 +76,8 @@ class ProfileViewModel: ObservableObject {
                 let authors = data["authors"] as? [String] ?? []
                 let description = data["description"] as? String ?? ""
                 let cover = data["cover"] as? String ?? ""
-                return Book(volumeInfo: VolumeInfo(title: title, authors: authors, description: description, imageLinks: ImageLinks(thumbnail: cover, isAsset: false)))
+                let isAsset = data["isAsset"] as? Bool ?? false
+                return Book(volumeInfo: VolumeInfo(title: title, authors: authors, description: description, imageLinks: ImageLinks(thumbnail: cover, isAsset: isAsset)))
             }
         }
     }
