@@ -247,7 +247,3 @@ struct MapView : View {
         .padding()
     }
 }
-
-//#Preview {
-//    MapView(lat: 0.0, lon: 0.0)
-//}

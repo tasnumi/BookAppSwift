@@ -143,8 +143,3 @@ struct ProfileView: View {
         }
     }
 }
-
-
-//#Preview {
-//    ProfileView(book: Book(volumeInfo: VolumeInfo(title: "hello", authors: ["hello"], description: "Hello", imageLinks: ImageLinks(thumbnail: "hi"))))
-//}
