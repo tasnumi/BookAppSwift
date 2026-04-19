@@ -29,7 +29,7 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         manager.delegate = self
     }
     // published var that stores the users favorite stores
-    @Published var userFavoriteStores: [favBookStores] = []
+    @Published var userFavoriteStores: [Bookstore] = []
    
     // the function that requests the location from the user upon pressing the share location button
     func requestUserLocation() {
@@ -74,25 +74,24 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             break
         }
     }
-    
     // function for adding the favorite store to the database
-    func addToFavoriteStores(myStore: Bookstore, userId: String, address: String) {
+    func addToFavoriteStores(myStore: Bookstore, userId: String) {
         let db = Firestore.firestore()
-        let addrandStore = "\(myStore.store.name ?? "")\(address)"
+        let addrandStore = "\(myStore.storeName)\(myStore.id)"
         let data: [String: Any] = [
             // using address as indentifier
-            "id": address,
-            "phoneNumber": myStore.store.phoneNumber ?? "",
-            "storeName": myStore.store.name ?? "",
-            "storeDistance": myStore.distanceInMi
+            "id": myStore.id,
+            "storeName": myStore.storeName,
+            "storeDistance": myStore.storeDistance,
+            "storePhoneNumber": myStore.storePhone
         ]
        
         db.collection("users").document(userId).collection("favoriteStores").document(addrandStore).setData(data)
     }
     
-    func removeFromFavoriteStores(myStore: Bookstore, userId: String, address: String) {
+    func removeFromFavoriteStores(myStore: Bookstore, userId: String) {
         let db = Firestore.firestore()
-        let addrandStore = "\(myStore.store.name ?? "")\(address)"
+        let addrandStore = "\(myStore.storeName)\(myStore.id)"
         // function to delete a document in firestore https://www.hackingwithswift.com/forums/swiftui/firestore-delete/8831
         let docRef = db.collection("users").document(userId).collection("favoriteStores").document(addrandStore)
         docRef.delete() { (error) in
@@ -103,7 +102,7 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             }
         }
     }
-    
+
     func fetchFavBookStores() async {
        let db = Firestore.firestore()
         db.collection("users").document(Auth.auth().currentUser?.uid ?? "").collection("favoriteStores").addSnapshotListener { (querySnapshot, error) in
@@ -112,13 +111,14 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
            return
          }
     
-         self.userFavoriteStores = documents.map { queryDocumentSnapshot -> favBookStores in
+         self.userFavoriteStores = documents.map { queryDocumentSnapshot -> Bookstore in
            let data = queryDocumentSnapshot.data()
            let id = data["id"] as? String ?? ""
            let storeDistance = data["storeDistance"] as? Double ?? 0.0
            let storeName = data["storeName"] as? String ?? ""
+           let storePhoneNumber = data["storePhoneNumber"] as? String ?? ""
     
-           return favBookStores(id: id, storeDistance: storeDistance, storeName: storeName)
+           return Bookstore(id: id, storeDistance: storeDistance, storeName: storeName, storePhone: storePhoneNumber)
          }
        }
      }

@@ -85,22 +85,22 @@ struct MapView : View {
                         .frame(width: 360, height: 360)
                         // if the user hasn't searched yet or results are empty, just display a list of their favorite bookstores
                         if(storeResults.isEmpty){
-                               // Text("Your Favorite Bookstores, Search For More!")
                                 List {
-                                    Text("Your Favorite Bookstores, Search For More!").frame(maxWidth: .infinity, alignment: .center).bold().foregroundStyle(Color("GreenButton")).font(.system(size:15))
+                                    Text(!locationManager.userFavoriteStores.isEmpty ? "Your Favorite Bookstores, Search For More!" : "No Favorites Yet, Search to Add!").frame(maxWidth: .infinity, alignment: .center).bold().foregroundStyle(Color("GreenButton")).font(.system(size:15))
                                     ForEach(locationManager.userFavoriteStores, id: \.id) { favStore in
                                         HStack{
-                                            VStack(alignment: .leading){
+                                            VStack(alignment: .leading, spacing: 3){
                                                 // documentation on what MKMapItem contains https://developer.apple.com/documentation/mapkit/mkmapitem/identifier-swift.class
                                                 Text(favStore.storeName)
                                                 // display the address below
                                                 Text(favStore.id).font(.subheadline).foregroundColor(.gray)
+                                                Text(favStore.storePhone).font(.caption).foregroundColor(.gray)
                                             }
                                             Spacer()
                                             VStack (spacing: 5) {
                                                 Text(String(format: "%.2f mi", favStore.storeDistance)).font(.subheadline).foregroundColor(.gray)
                                                 Button {
-                                                
+                                                    locationManager.removeFromFavoriteStores(myStore: favStore, userId: Auth.auth().currentUser?.uid ?? "")
                                                 } label: {Image(systemName: "heart.fill").font(.system(size: 25)).foregroundStyle(.red)}
                                             }
                                         }
@@ -115,27 +115,27 @@ struct MapView : View {
                                 HStack{
                                     VStack(alignment: .leading){
                                         // documentation on what MKMapItem contains https://developer.apple.com/documentation/mapkit/mkmapitem/identifier-swift.class
-                                        Text(storeResult.store.name ?? "No Store Name Found")
+                                        Text(storeResult.storeName)
                                         // display the address below
-                                        Text(storeResult.address).font(.subheadline).foregroundColor(.gray)
+                                        Text(storeResult.id).font(.subheadline).foregroundColor(.gray)
                                     }
                                     Spacer()
                                     VStack (spacing: 5) {
-                                        Text(String(format: "%.2f mi", storeResult.distanceInMi)).font(.subheadline).foregroundColor(.gray)
+                                        Text(String(format: "%.2f mi", storeResult.storeDistance)).font(.subheadline).foregroundColor(.gray)
                                         Button {
                                             // if the store is already in their favorites, remove it
                                             // using store address as id
-                                            if locationManager.userFavoriteStores.contains(where: {$0.id == storeResult.address}) {
-                                                locationManager.removeFromFavoriteStores(myStore: storeResult, userId: Auth.auth().currentUser?.uid ?? "", address: storeResult.address)
+                                            if locationManager.userFavoriteStores.contains(where: {$0.id == storeResult.id}) {
+                                                locationManager.removeFromFavoriteStores(myStore: storeResult, userId: Auth.auth().currentUser?.uid ?? "")
                                             }
                                             else {
                                                 print("Store added to favorites")
-                                                locationManager.addToFavoriteStores(myStore: storeResult, userId: Auth.auth().currentUser?.uid ?? "", address: storeResult.address)
+                                                locationManager.addToFavoriteStores(myStore: storeResult, userId: Auth.auth().currentUser?.uid ?? "")
                                             }
                                         } label: {
                                             // modify the image conditionally between filled and unfilled based on
                                             // the if store is in favorites
-                                            if locationManager.userFavoriteStores.contains(where: {$0.id == storeResult.address}) {
+                                            if locationManager.userFavoriteStores.contains(where: {$0.id == storeResult.id}) {
                                                 Image(systemName: "heart.fill").font(.system(size: 25)).foregroundStyle(.red)
                                             }
                                             else {
@@ -219,8 +219,10 @@ struct MapView : View {
                         let storeCity = item.placemark.locality ?? ""
                         let storeState = item.placemark.administrativeArea ?? ""
                         let address = "\(streetAddr) \(storeCity), \(storeState)"
+                        let nameofStore = item.name ?? "No store name found."
+                        let storePhone = item.phoneNumber ?? ""
                         // add the store object with distance to the array
-                        storeResults.append(Bookstore(id: UUID(), store: item, address: address, distanceInMi: distance))
+                        storeResults.append(Bookstore(id: address, storeDistance: distance, storeName: nameofStore, storePhone: storePhone))
                     }
                 }
             } label: {
