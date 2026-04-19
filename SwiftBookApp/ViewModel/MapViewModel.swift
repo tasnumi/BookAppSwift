@@ -80,6 +80,7 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         let data: [String: Any] = [
             // using address as indentifier
             "id": myStore.id,
+            "storeAddress": myStore.storeAddress,
             "storeName": myStore.storeName,
             "storeDistance": myStore.storeDistance,
             "storePhoneNumber": myStore.storePhone
@@ -111,11 +112,12 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
          self.userFavoriteStores = documents.map { queryDocumentSnapshot -> Bookstore in
            let data = queryDocumentSnapshot.data()
            let id = data["id"] as? String ?? ""
+           let storeAddress = data["storeAddress"] as? String ?? ""
            let storeDistance = data["storeDistance"] as? Double ?? 0.0
            let storeName = data["storeName"] as? String ?? ""
            let storePhoneNumber = data["storePhoneNumber"] as? String ?? ""
     
-           return Bookstore(id: id, storeDistance: storeDistance, storeName: storeName, storePhone: storePhoneNumber)
+             return Bookstore(id: id, storeAddress: storeAddress,storeDistance: storeDistance, storeName: storeName, storePhone: storePhoneNumber)
          }
        }
      }

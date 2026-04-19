@@ -93,7 +93,7 @@ struct MapView : View {
                                                 // documentation on what MKMapItem contains https://developer.apple.com/documentation/mapkit/mkmapitem/identifier-swift.class
                                                 Text(favStore.storeName).bold().foregroundStyle(Color("GreenButton"))
                                                 // display the address below
-                                                Text(favStore.id).font(.subheadline).foregroundColor(.gray)
+                                                Text(favStore.storeAddress).font(.subheadline).foregroundColor(.gray)
                                                 Text(favStore.storePhone).font(.caption).foregroundColor(.gray)
                                             }
                                             Spacer()
@@ -111,13 +111,15 @@ struct MapView : View {
                         }
                         else {
                         List {
-                            ForEach(storeResults, id: \.id) { storeResult in
+                            // create an array that displays stores in order of closest distance
+                            let sortedResults = storeResults.sorted { $0.storeDistance < $1.storeDistance }
+                            ForEach(sortedResults, id: \.id) { storeResult in
                                 HStack{
-                                    VStack(alignment: .leading){
+                                    VStack(alignment: .leading, spacing: 3){
                                         // documentation on what MKMapItem contains https://developer.apple.com/documentation/mapkit/mkmapitem/identifier-swift.class
                                         Text(storeResult.storeName).bold().foregroundStyle(Color("GreenButton"))
                                         // display the address below
-                                        Text(storeResult.id).font(.subheadline).foregroundColor(.gray)
+                                        Text(storeResult.storeAddress).font(.subheadline).foregroundColor(.gray)
                                     }
                                     Spacer()
                                     VStack (spacing: 5) {
@@ -218,8 +220,12 @@ struct MapView : View {
                         let address = "\(streetAddr) \(storeCity), \(storeState)"
                         let nameofStore = item.name ?? "No store name found."
                         let storePhone = item.phoneNumber ?? ""
-                        // add the store object with distance to the array
-                        storeResults.append(Bookstore(id: address, storeDistance: distance, storeName: nameofStore, storePhone: storePhone))
+                        let storeId = "\(nameofStore)\(streetAddr)\(storeCity)\(storeState)"
+                        // filter by the store id, do not append duplicates as it clutters results
+                        if !storeResults.contains(where: {$0.id == storeId}) {
+                            // add the store object with distance to the array
+                            storeResults.append(Bookstore(id: storeId, storeAddress: address, storeDistance: distance, storeName: nameofStore, storePhone: storePhone))
+                        }
                     }
                 }
             } label: {

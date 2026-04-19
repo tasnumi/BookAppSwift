@@ -34,9 +34,9 @@ struct ProfileView: View {
                 // how to get the user's account creation date from firebase https://stackoverflow.com/questions/38174178/get-created-date-and-last-login-date-from-firuser-with-firebase-3
                 let joinDate = Auth.auth().currentUser?.metadata.creationDate
                 // format date and dont include the time of the creation https://developer.apple.com/documentation/foundation/date/formatstyle
-                Text("Join Date : \(joinDate?.formatted(date: .long, time: .omitted) ?? "N/A")").font(.system(size: 20))
+                Text("Join Date : \(joinDate?.formatted(date: .long, time: .omitted) ?? "N/A")").bold().foregroundStyle(Color("GreenButton")).font(.system(size: 21))
                 VStack {
-                    Text("Favorite Books").font(.system(size: 20))
+                    Text("Favorite Books").bold().foregroundStyle(Color("GreenButton")).font(.system(size: 21))
                     // horizontal scroll view in swift https://www.hackingwithswift.com/quick-start/swiftui/how-to-add-horizontal-and-vertical-scrolling-using-scrollview
                     HStack {
                     ScrollView(.horizontal, showsIndicators: true) {
@@ -81,7 +81,7 @@ struct ProfileView: View {
                         }.padding(.horizontal, 10)
                     }
                     }.padding(.horizontal, 8).background(Color("GreyAccentColor")).cornerRadius(16).padding(.bottom, 15)
-                    Text("Books Read: \(profileVM.readBooks.count)").font(.system(size: 20))
+                    Text("Books Read: \(profileVM.readBooks.count)").bold().foregroundStyle(Color("GreenButton")).font(.system(size: 21))
                     HStack {
                     ScrollView(.horizontal, showsIndicators: true) {
                         HStack(spacing: 20) {
