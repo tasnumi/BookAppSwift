@@ -140,6 +140,7 @@ struct ProfileView: View {
             // fetch the data when the content view loads
             await profileVM.fetchFavBookData()
             await profileVM.fetchReadBookData()
+            homeVM.getUsername()
         }
     }
 }
