@@ -77,7 +77,7 @@ class BookDetailViewModel: ObservableObject {
             if let error = error {
                 print("error removing document \(error)")
             } else {
-                print("document successfully removed from favorites")
+                
             }
         }
     }
@@ -91,7 +91,7 @@ class BookDetailViewModel: ObservableObject {
             if let error = error {
                 print("error removing document \(error)")
             } else {
-                print("document successfully removed from read books")
+               
             }
         }
     }
