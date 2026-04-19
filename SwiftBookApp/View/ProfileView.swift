@@ -42,7 +42,9 @@ struct ProfileView: View {
                     ScrollView(.horizontal, showsIndicators: true) {
                         HStack(spacing: 20) {
                             if(profileVM.favoriteBooks.count == 0 ){
-                                Text("No Favorite Books Yet").padding(18).frame(height: 160).multilineTextAlignment(.center).font(.system(size: 19))
+                                Spacer()
+                                Text("No Favorite Books Yet").padding(18).frame(height: 160).multilineTextAlignment(.center).font(.system(size: 19)).padding(.horizontal, 22)
+                                Spacer()
                             }
                             else {
                                 ForEach(profileVM.favoriteBooks) { item in
@@ -86,7 +88,9 @@ struct ProfileView: View {
                     ScrollView(.horizontal, showsIndicators: true) {
                         HStack(spacing: 20) {
                             if(profileVM.readBooks.count == 0 ){
-                                Text("No Books Read Yet").padding(18).frame(height: 160).multilineTextAlignment(.center).font(.system(size: 19))
+                                Spacer()
+                                    Text("No Books Read Yet").padding(18).frame(height: 160).multilineTextAlignment(.center).font(.system(size: 19)).padding(.horizontal, 36)
+                                Spacer()
                             }
                             else {
                                 ForEach(profileVM.readBooks) { item in
