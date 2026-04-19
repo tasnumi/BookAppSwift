@@ -28,5 +28,5 @@
 ### Map Screen:
 * Use the user's current location to locate bookstores (or other stores based on search query) nearby
 * Users can favorite bookstores (or other stores based on search query)
-* Users can view their favorited stores and expand store details when opening the Map View
+* Users can view their favorited stores and view store details (store name, address, and phone number) upon Map View
 
