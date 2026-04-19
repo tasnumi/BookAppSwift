@@ -129,13 +129,6 @@ struct ProfileView: View {
                 
             }
         }.toolbar{
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationStack {
-                    NavigationLink(destination: ProfileView(homeVM: homeVM)){
-                    Image(systemName: "person.crop.circle.fill").foregroundStyle(Color("GreenButton"))
-                    }
-                }
-            }
             ToolbarItem(placement: .bottomBar) {
                 NavigationStack {
                     NavigationLink(destination: MapView(lat: 0.0, lon: 0.0)){

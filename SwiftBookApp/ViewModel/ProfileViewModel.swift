@@ -49,7 +49,8 @@ class ProfileViewModel: ObservableObject {
                 // https://developers.google.com/books/docs/v1/reference/volumes
                 let cover = data["cover"] as? String ?? ""
                 let isAsset = data["isAsset"] as? Bool ?? false
-                return Book(volumeInfo: VolumeInfo(title: title, authors: authors, description: description, imageLinks: ImageLinks(thumbnail: cover, isAsset: isAsset)))
+                let averageRating = data["averageRating"] as? Double ?? 0.0
+                return Book(volumeInfo: VolumeInfo(title: title, authors: authors, description: description, imageLinks: ImageLinks(thumbnail: cover, isAsset: isAsset), averageRating: averageRating))
             }
         }
     }
@@ -75,7 +76,8 @@ class ProfileViewModel: ObservableObject {
                 let description = data["description"] as? String ?? ""
                 let cover = data["cover"] as? String ?? ""
                 let isAsset = data["isAsset"] as? Bool ?? false
-                return Book(volumeInfo: VolumeInfo(title: title, authors: authors, description: description, imageLinks: ImageLinks(thumbnail: cover, isAsset: isAsset)))
+                let averageRating = data["averageRating"] as? Double ?? 0.0
+                return Book(volumeInfo: VolumeInfo(title: title, authors: authors, description: description, imageLinks: ImageLinks(thumbnail: cover, isAsset: isAsset), averageRating: averageRating))
             }
         }
     }
