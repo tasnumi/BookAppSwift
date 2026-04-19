@@ -83,6 +83,33 @@ struct MapView : View {
                     } .onAppear{loadUserLoction(latCoord: location.latitude, lonCoord: location.longitude)}
                         .ignoresSafeArea()
                         .frame(width: 360, height: 360)
+                        // if the user hasn't searched yet or results are empty, just display a list of their favorite bookstores
+                        if(storeResults.isEmpty){
+                               // Text("Your Favorite Bookstores, Search For More!")
+                                List {
+                                    Text("Your Favorite Bookstores, Search For More!").frame(maxWidth: .infinity, alignment: .center).bold().foregroundStyle(Color("GreenButton")).font(.system(size:15))
+                                    ForEach(locationManager.userFavoriteStores, id: \.id) { favStore in
+                                        HStack{
+                                            VStack(alignment: .leading){
+                                                // documentation on what MKMapItem contains https://developer.apple.com/documentation/mapkit/mkmapitem/identifier-swift.class
+                                                Text(favStore.storeName)
+                                                // display the address below
+                                                Text(favStore.id).font(.subheadline).foregroundColor(.gray)
+                                            }
+                                            Spacer()
+                                            VStack (spacing: 5) {
+                                                Text(String(format: "%.2f mi", favStore.storeDistance)).font(.subheadline).foregroundColor(.gray)
+                                                Button {
+                                                
+                                                } label: {Image(systemName: "heart.fill").font(.system(size: 25)).foregroundStyle(.red)}
+                                            }
+                                        }
+                                        
+                                    }
+                                }.scrollContentBackground(.hidden)
+                                    .background(Color("Background"))
+                        }
+                        else {
                         List {
                             ForEach(storeResults, id: \.id) { storeResult in
                                 HStack{
@@ -119,15 +146,16 @@ struct MapView : View {
                                 }
                                
                             }
-                        } .task {
-                            await locationManager.fetchFavBookStores()
                         }.scrollContentBackground(.hidden)
                         .background(Color("Background"))
+                    }
 
                  }
                 }
                 
             }
+        }.task {
+            await locationManager.fetchFavBookStores()
         }.toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationStack {
