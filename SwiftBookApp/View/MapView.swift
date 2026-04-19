@@ -91,7 +91,7 @@ struct MapView : View {
                                         HStack{
                                             VStack(alignment: .leading, spacing: 3){
                                                 // documentation on what MKMapItem contains https://developer.apple.com/documentation/mapkit/mkmapitem/identifier-swift.class
-                                                Text(favStore.storeName)
+                                                Text(favStore.storeName).bold().foregroundStyle(Color("GreenButton"))
                                                 // display the address below
                                                 Text(favStore.id).font(.subheadline).foregroundColor(.gray)
                                                 Text(favStore.storePhone).font(.caption).foregroundColor(.gray)
@@ -115,7 +115,7 @@ struct MapView : View {
                                 HStack{
                                     VStack(alignment: .leading){
                                         // documentation on what MKMapItem contains https://developer.apple.com/documentation/mapkit/mkmapitem/identifier-swift.class
-                                        Text(storeResult.storeName)
+                                        Text(storeResult.storeName).bold().foregroundStyle(Color("GreenButton"))
                                         // display the address below
                                         Text(storeResult.id).font(.subheadline).foregroundColor(.gray)
                                     }
@@ -129,7 +129,6 @@ struct MapView : View {
                                                 locationManager.removeFromFavoriteStores(myStore: storeResult, userId: Auth.auth().currentUser?.uid ?? "")
                                             }
                                             else {
-                                                print("Store added to favorites")
                                                 locationManager.addToFavoriteStores(myStore: storeResult, userId: Auth.auth().currentUser?.uid ?? "")
                                             }
                                         } label: {
@@ -174,8 +173,6 @@ struct MapView : View {
             latitude: latCoord,
             longitude: lonCoord
         )
-        print(coords.latitude)
-        print(coords.longitude)
         
         DispatchQueue.main.async
             {

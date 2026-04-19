@@ -46,7 +46,6 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     // the reccomended solution is to add this event handler below to account for any errors in requesting location
     // source https://stackoverflow.com/questions/40345170/delegate-must-respond-to-locationmanagerdidupdatelocations-swift-eroor
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Failed to get users location.")
         // if failed, set to default location of tempe
         userCurrentLocation = CLLocationCoordinate2D(latitude: 33.4255, longitude: -111.9400)
     }
@@ -96,9 +95,8 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         let docRef = db.collection("users").document(userId).collection("favoriteStores").document(addrandStore)
         docRef.delete() { (error) in
             if let error = error {
-                print("error removing store \(error)")
+                print("\(error)")
             } else {
-                print("store successfully removed from favorites")
             }
         }
     }
@@ -107,7 +105,6 @@ class MapViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
        let db = Firestore.firestore()
         db.collection("users").document(Auth.auth().currentUser?.uid ?? "").collection("favoriteStores").addSnapshotListener { (querySnapshot, error) in
          guard let documents = querySnapshot?.documents else {
-           print("No documents")
            return
          }
     
