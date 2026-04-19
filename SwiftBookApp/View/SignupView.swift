@@ -45,6 +45,7 @@ struct SignupView: View {
                                 .textFieldStyle(.plain)
                                 .autocorrectionDisabled(true)
                                 .textInputAutocapitalization(.never)
+                                .frame(maxWidth: 270)
                         }
                         .padding(10)
                         .background(Color(.systemGray6))
@@ -73,6 +74,7 @@ struct SignupView: View {
                                 .textFieldStyle(.plain)
                                 .autocorrectionDisabled(true)
                                 .textInputAutocapitalization(.never)
+                                .frame(maxWidth: 270)
                         }
                         .padding(10)
                         .background(Color(.systemGray6))
@@ -101,6 +103,7 @@ struct SignupView: View {
                                 .textFieldStyle(.plain)
                                 .autocorrectionDisabled(true)
                                 .textInputAutocapitalization(.never)
+                                .frame(maxWidth: 280)
                         }
                         .padding(10)
                         .background(Color(.systemGray6))

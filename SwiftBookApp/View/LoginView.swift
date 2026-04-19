@@ -35,6 +35,7 @@ struct LoginView: View {
                             .textFieldStyle(.plain)
                             .autocorrectionDisabled(true)
                             .textInputAutocapitalization(.never)
+                            .frame(maxWidth: 270)
                     }
                     .padding(10)
                     .background(Color(.systemGray6))
@@ -47,7 +48,6 @@ struct LoginView: View {
                     .frame(alignment: .leading)
                     
                 }
-                .padding(.leading, 20)
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Enter Password")
@@ -62,6 +62,7 @@ struct LoginView: View {
                             .textFieldStyle(.plain)
                             .autocorrectionDisabled(true)
                             .textInputAutocapitalization(.never)
+                            .frame(maxWidth: 280)
                     }
                     .padding(10)
                     .background(Color(.systemGray6))
@@ -74,7 +75,6 @@ struct LoginView: View {
                     .frame(alignment: .leading)
                     
                 }
-                .padding(.leading, 20)
                 
                 VStack {
                     if !loginVM.hasError.isEmpty {
