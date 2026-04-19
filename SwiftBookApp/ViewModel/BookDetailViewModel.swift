@@ -32,7 +32,8 @@ class BookDetailViewModel: ObservableObject {
             "authors": book.volumeInfo.authors ?? [],
             "cover": book.volumeInfo.imageLinks?.thumbnail ?? "",
             "description": book.volumeInfo.description ?? "",
-            "isAsset": isAsset
+            "isAsset": isAsset,
+            "averageRating": book.volumeInfo.averageRating ?? 0.0,
         ]
         
         db.collection("users").document(userId).collection("favorites").document(book.id).setData(data)
@@ -61,7 +62,8 @@ class BookDetailViewModel: ObservableObject {
             "authors": book.volumeInfo.authors ?? [],
             "cover": book.volumeInfo.imageLinks?.thumbnail ?? "",
             "description": book.volumeInfo.description ?? "",
-            "isAsset": isAsset
+            "isAsset": isAsset,
+            "averageRating": book.volumeInfo.averageRating ?? 0.0,
         ]
         
         // add to a subcollection called readBooks

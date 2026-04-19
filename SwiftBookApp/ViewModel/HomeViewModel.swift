@@ -106,7 +106,8 @@ class HomeViewModel: ObservableObject {
                     imageLinks: ImageLinks(
                         thumbnail: "harry_potter",
                         isAsset: true
-                    )
+                    ),
+                    averageRating: 4.5
                 )
             ),
             Book(
@@ -117,7 +118,8 @@ class HomeViewModel: ObservableObject {
                     imageLinks: ImageLinks(
                         thumbnail: "circe",
                         isAsset: true
-                    )
+                    ),
+                    averageRating: 4.0
                 )
             ),
             Book(
@@ -128,7 +130,8 @@ class HomeViewModel: ObservableObject {
                     imageLinks: ImageLinks(
                         thumbnail: "lord_of_the_rings",
                         isAsset: true
-                    )
+                    ),
+                    averageRating: 5.0
                 )
             ),
             Book(
@@ -139,7 +142,8 @@ class HomeViewModel: ObservableObject {
                     imageLinks: ImageLinks(
                         thumbnail: "pride_and_prejudice",
                         isAsset: true
-                    )
+                    ),
+                    averageRating: 5.0
                 )
             )
         ]

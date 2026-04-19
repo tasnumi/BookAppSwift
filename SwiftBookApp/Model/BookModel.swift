@@ -28,6 +28,7 @@ struct VolumeInfo: Decodable { //type VolumeInfo stores all of the book informat
     let authors: [String]? //contains authuors in string array
     let description: String? //contains description
     let imageLinks: ImageLinks? //contains book covers or imageLinks
+    let averageRating: Double? // average rating for the book
 }
 
 struct ImageLinks: Decodable { //type ImageLink has a thumbnail which gets returned from the API. the API returns this in a HTTP link, we will need to later convert this to HTTPS to use AsyncImage to load this image into the application
