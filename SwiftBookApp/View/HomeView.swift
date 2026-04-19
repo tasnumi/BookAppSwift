@@ -65,7 +65,6 @@ struct HomeView: View {
                         ForEach(homeVM.books, id: \.id) { book in
                             
                             NavigationLink(destination: BookInfoView(book: book)) {
-                                    HStack {
                                         //use Apple's documentation to asynchronously fetch the images from the book cover id
                                         //https://developer.apple.com/documentation/SwiftUI/AsyncImage
                                         if let thumbnail = book.volumeInfo.imageLinks?.thumbnail { //if the thumbnail field contains some data
@@ -81,11 +80,11 @@ struct HomeView: View {
                                                         .scaledToFit()
                                                         .frame(width: 90, height: 135)
                                                 } placeholder: {
-                                                    ProgressView()
-                                                }
+                                                    Color.gray.opacity(0.1)
+                                                }.id(url)
                                                 }
                                             }
-                                                                            
+                                        //https://stackoverflow.com/questions/71057655/swiftui-async-image-not-loading-when-frame-size-is-below-500 use this resource since some books weren't loading. added .id(url) and removed vstack when loading in the books with the list view
                                         VStack(alignment: .leading, spacing: 8) {
                                             Text(book.volumeInfo.title ?? "Unknown Title")
                                             .foregroundStyle(Color("GreenButton"))
@@ -93,8 +92,6 @@ struct HomeView: View {
                                             Text(book.volumeInfo.authors?.first ?? "Unknown Author")
                                                 .foregroundColor(.secondary)
                                         }
-                                    }
-                                    
                             }
                             
                         }
