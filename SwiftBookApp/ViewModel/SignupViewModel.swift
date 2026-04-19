@@ -42,8 +42,6 @@ class SignupViewModel: ObservableObject {
                         self.hasError = "The email address is badly formatted."
                         return
                     }
-                    print("Error code is:\(error.code)")
-                    print("Error creating user: \(error.userInfo)")
                     return
                 }
                 
@@ -53,11 +51,9 @@ class SignupViewModel: ObservableObject {
                 
                 self.firestore.collection("users").document(user.uid).setData(data) { error in
                     if let error = error as NSError? {
-                        print("DEBUG: Failed to add user to collection with \(error.code)")
                         self.hasError = "Error adding user to database. Please try again."
                         return
                     }
-                    print("DEBUG: User data set.")
                 }
                 mainVM.signedUp = true
             }

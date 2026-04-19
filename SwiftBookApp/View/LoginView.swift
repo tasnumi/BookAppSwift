@@ -86,7 +86,6 @@ struct LoginView: View {
                 
                 Button("Login") {
                     loginVM.login(mainVM: mainVM)
-                    print(mainVM.isLoggedIn)
                 }
                 .font(Font.title3)
                 .padding(.horizontal, 25)
@@ -107,7 +106,4 @@ struct LoginView: View {
         
         
     }
-}
-#Preview {
-    LoginView()
 }

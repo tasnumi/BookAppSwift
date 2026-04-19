@@ -13,8 +13,6 @@ class MainAppViewModel: ObservableObject {
     
     @Published var books: [Book] = []
     @Published var bookStores: [Bookstore] = []
-    @Published var users: [User] = []
-    @Published var currentUser: User?
     @Published var isLoggedIn: Bool = false
     @Published var signedUp: Bool = false
     
